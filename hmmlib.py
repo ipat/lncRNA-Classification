@@ -1,20 +1,9 @@
 import numpy
 import pickle
 from pomegranate import *
+import glob
 
 # https://www.cs.princeton.edu/~mona/Lecture/HMM1.pdf
-input_seqs = [
-"UGGUGCUGUGCUCUGA-CCUACUAACUUGGCC-UUACUAACCCCAUUU-----UCUUACUAACCCCAGCCCUGCCGAGCUCUGGGC",
-"UGGUGCUGUGCUCUGA-CCUACUAACCUGGCC-CUACUAACUGG-UUU-CUCUUCUUACUAACCC-AGCCCUGCCGAGCUCUGGGC",
-"UGGUGCACUGCUCUGA-CCUACUAACCCAGCCUCUACUAACCCUGGUU---UUUCUUACUAACCCCGGCCCUGCCGAGCUCUGGGU",
-"UGGUGCUGUGCUG--A-UUUACUAACCCGGCC-CUACUAACCUGGUUU-CUCUUCUUACUAACCCCAGCCCUGCCGAGCUCUGGGU",
-"UGGUGCUGUGCUC-----UUACUAACCCAGACCCUACUAACCCUGGUU---UCUCUUACUAACCCCAGCCCUGCCGAGCUCUGGGC",
-"UGGCGCUGUGCUCUGAACCUACUAACCCGGCC-CUACUAACCCGG-----UCUUCUUACUAACCC-AGCCCUGCCGAGCUCUGGGU",
-"UGAUGCUGUGCU--------ACUAACCCGGCC-CUACUAAC-UGGUUU-CUCUUCUUACUAACCC-AGCCCUGCCGAGCUCUGGGC",
-"UGGUGCUGUGCUCUGA-CUUACUAACCCAGCCCCUACUAACCCUGUUUUCUCUUCUUACUAACCCCAGCCCUGCCGAGCUCUGGGC",
-"UGGCGCUGCGCUCUGA-CAUACUAACCCAGCCCCUACUAACCCUGUUU-----UCUUACUAACCCCAGCCCUGCCGAGCUCUGGGC",
-"UGGUGCUGUGCUCUCA-CUUACUAACCCCGCCCCUACUAACCUCGUUUUCUCUUCCCACUAACCCCAGCCCUGCCGAGCUCUGGGC"
-]
 
 map_base = {"A": 0, "C": 1, "G": 2, "U": 3}
 DEFAULT_LAST_MATCH_TO_INSERT 	= 0.1
@@ -33,6 +22,8 @@ DEFAULT_DELETE_TO_MATCH 		= 0.70
 DEFAULT_DELETE_TO_DELETE		= 0.15
 DEFAULT_LAST_DELETE_TO_INSERT	= 0.85
 DEFAULT_LAST_DELETE_TO_END		= 0.15
+
+DEFAULT_DIRECTORY 	= "lncRNA/"
 
 def calculateProfile(seqs):
 	# Check the column that have - more than half of number of sequences
@@ -105,7 +96,7 @@ def calculateProfile(seqs):
 
 	return seq_length, match_emission, match_transition, insert_transition, delete_transition
 
-def make_model(input_seqs, family_name):
+def makeModel(input_seqs, family_name):
 	seq_length, match_emission, match_transition, insert_transition, delete_transition = calculateProfile(input_seqs)
 
 	model = HiddenMarkovModel("Global Sequence Aligner")
@@ -178,23 +169,38 @@ def make_model(input_seqs, family_name):
 	model.bake()
 	model_json = model.to_json()
 
-	f = open(family_name + ".pckl", "w")
+	f = open(DEFAULT_DIRECTORY + family_name + ".lncRNA", "w")
 	pickle.dump(model_json, f)
 	f.close()
 
 
-	f = open(family_name + ".pckl")
-	test_model = pickle.load(f)
-	f.close()
+	# f = open(family_name + ".pckl")
+	# test_model = pickle.load(f)
+	# f.close()
 
-	new_model = HiddenMarkovModel("TEST")
-	test = new_model.from_json(test_model)
+	# new_model = HiddenMarkovModel("TEST")
+	# test = new_model.from_json(test_model)
 
-	for sequence in map(list, ("UGAUGCUGUGCUACUAACCCGGCCCUACUAACUGGUUUCUCUUCUUACUAACCCAGCCCUGCCGAGCUCUGGGC","UGGUGCUGUGCUCUGACUUACUAACCCAGCCCCUACUAACCCUGUUUUCUCUUCUUACUAACCCCAGCCCUGCCGAGCUCUGGGC", "AGUACUGAUGCUGUGCUACUAACCCGGCCCUACUAACUGGUUUCUCUUCUUACUAACCCAGCCCUGCCGAGCUCUGGGC")):
-		logp, path = test.viterbi(sequence)
-		# print path
-		print "Sequence: '{}'  -- Log Probability: {} -- Path: {}".format(
-			''.join( sequence ), logp, " ".join( state.name for idx, state in path[1:-1] ) )
+	# for sequence in map(list, ("UGAUGCUGUGCUACUAACCCGGCCCUACUAACUGGUUUCUCUUCUUACUAACCCAGCCCUGCCGAGCUCUGGGC","UGGUGCUGUGCUCUGACUUACUAACCCAGCCCCUACUAACCCUGUUUUCUCUUCUUACUAACCCCAGCCCUGCCGAGCUCUGGGC", "AGUACUGAUGCUGUGCUACUAACCCGGCCCUACUAACUGGUUUCUCUUCUUACUAACCCAGCCCUGCCGAGCUCUGGGC")):
+	# 	logp, path = test.viterbi(sequence)
+	# 	# print path
+	# 	print "Sequence: '{}'  -- Log Probability: {} -- Path: {}".format(
+	# 		''.join( sequence ), logp, " ".join( state.name for idx, state in path[1:-1] ) )
 
 
-make_model(input_seqs, "ASDFA")
+
+
+# makeModel(input_seqs, "ACEV0192");
+
+def calculateProb(in_seq):
+	model = HiddenMarkovModel("Global Sequence Aligner")
+	for filename in glob.glob(DEFAULT_DIRECTORY + '*.lncRNA'):
+		f = open(filename)
+		model_json = pickle.load(f)
+		f.close()
+		test_model = model.from_json(model_json)
+
+		logp, path = test_model.viterbi(in_seq)
+		print logp
+
+
