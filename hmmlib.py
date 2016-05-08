@@ -2,6 +2,7 @@ import numpy
 import pickle
 from pomegranate import *
 import glob
+import os
 
 # https://www.cs.princeton.edu/~mona/Lecture/HMM1.pdf
 
@@ -209,7 +210,7 @@ def calculateProb(in_seq, return_dict, start = 0, end = 217):
 	max_prob = -999999
 	max_fam = ""
 	prob = {}
-	for filename in glob.glob(DEFAULT_DIRECTORY + '*.lncRNA')[start:end]:
+	for filename in sorted(glob.glob(DEFAULT_DIRECTORY + '*.lncRNA'), key=os.path.getsize, reverse=True)[start:end]:
 		family_name = filename[filename.index("/") + 1: filename.index(".")]
 		# print family_name
 		f = open(filename)
