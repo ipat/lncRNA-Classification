@@ -203,7 +203,7 @@ def makeModel(input_seqs, family_name):
 
 # makeModel(input_seqs, "ACEV0192");
 
-def calculateProb(in_seq, start = 0, end = 217):
+def calculateProb(in_seq, start = 0, end = 217, return_dict):
 	print "Calculating Probability from " + str(start) + " to " + str(end)
 	model = HiddenMarkovModel("Global Sequence Aligner")
 	max_prob = -999999
@@ -224,6 +224,7 @@ def calculateProb(in_seq, start = 0, end = 217):
 			max_fam = family_name
 		if path != None:
 			prob[family_name] = logp
+	return_dict[max_fam] = max_prob
 	return max_fam, max_prob
 
 # calculateProb(input_seqs[0].replace("-", ""))
