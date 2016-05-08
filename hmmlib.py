@@ -206,6 +206,8 @@ def makeModel(input_seqs, family_name):
 def calculateProb(in_seq, start = 0, end = 217):
 	print "Calculating Probability from " + str(start) + " to " + str(end)
 	model = HiddenMarkovModel("Global Sequence Aligner")
+	max_prob = -999999
+	max_fam = ""
 	prob = {}
 	for filename in glob.glob(DEFAULT_DIRECTORY + '*.lncRNA')[start:end]:
 		family_name = filename[filename.index("/") + 1: filename.index(".")]
@@ -217,9 +219,12 @@ def calculateProb(in_seq, start = 0, end = 217):
 
 		logp, path = test_model.viterbi(in_seq)
 		print family_name + ": " + str(logp)
+		if max_prob < logp:
+			max_prob = logp
+			max_fam = family_name
 		if path != None:
 			prob[family_name] = logp
-	return prob
+	return max_fam, max_prob
 
 # calculateProb(input_seqs[0].replace("-", ""))
 
