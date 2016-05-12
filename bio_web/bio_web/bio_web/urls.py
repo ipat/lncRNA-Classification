@@ -2,13 +2,14 @@ from django.conf.urls import patterns, include, url
 from django.conf.urls.static import static
 from django.conf import settings
 from django.views.generic import TemplateView
+from main import views 
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^$', TemplateView.as_view(template_name='home.html')),
+    url(r'^$', views.homepage),
 
     # Examples:
     # url(r'^$', 'bio_web.views.home', name='home'),
