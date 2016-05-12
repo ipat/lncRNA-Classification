@@ -1,1 +1,8 @@
 /*! project specific CSS goes here. */
+body {
+	background-color: #424141;
+}
+#submit-btn {
+	float: right;
+	margin-top: 10px;
+}
