@@ -1,6 +1,6 @@
 /*! project specific CSS goes here. */
 body {
-	background-color: #424141;
+	background-color: #52BDE0;
 }
 #submit-btn {
 	float: right;
@@ -19,4 +19,13 @@ html, body {
     display: table-cell;
     height: 100%;
     vertical-align: middle;
+}
+
+#over-form-text {
+
+    color: white;
+    font-family: montserrat;
+    width: 100%;
+    text-align: center;
+    font-size: 3.5rem;
 }

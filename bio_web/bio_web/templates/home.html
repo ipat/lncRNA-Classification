@@ -1,33 +1,39 @@
 {% load staticfiles %}
 <!DOCTYPE html>
 <html>
-	<head>
-		<title>Demo</title>
-		<meta charset="utf-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-	    <meta name="description" content="Demo project">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-		<link href="{% static 'css/bio_web.css' %}" rel="stylesheet">
-		<link href="{% static 'css/buttons.css' %}" rel="stylesheet">
-	</head>
-	<body>
-		<div class="container">
-			<form>
-			<div class="row">
-				<div class="col-md-12">
-					
-						<textarea class="form-control" rows="5" id="search_-na"></textarea>
-					
-				</div>
+<head>
+	<title>Demo</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<meta name="description" content="Demo project">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+	<link href="{% static 'css/bio_web.css' %}" rel="stylesheet">
+	<link href="{% static 'css/buttons.css' %}" rel="stylesheet">
+	<link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet' type='text/css'>
+</head>
+<body>
+	<div class = "main">
+		<div class = "wrapper">
+			<div class="container">
+				<form>
+					<div class="row">
+						<p id="over-form-text">Put Long non-encoding RNA here to identify</p>
+					</div>
+					<div class="row">
+						<div class="col-md-12">
+							<textarea class="form-control" rows="5" id="search_-na"></textarea>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-4 pull-right">
+							<button type="button" class="btn btn-primary btn-sm round" id="submit-btn">Submit</button>
+						</div>
+					</div>
+				</form>
 			</div>
-			<div class="row">
-				<div class="col-md-4 pull-right">
-						<button type="button" class="btn btn-primary btn-sm round" id="submit-btn">Submit</button>
-				</div>
-			</div>
-			</form>
-		<div>
-	</body>
-	<script type="text/javascript"></script>
+		</div>
+	</div>
+</body>
+<script type="text/javascript"></script>
 </html>
