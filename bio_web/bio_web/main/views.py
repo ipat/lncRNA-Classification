@@ -42,6 +42,9 @@ def homepage(request):
                             if data_with_uid[1] == uid:
                                 print "FINAL RESULT: " + data_with_uid[0]
                                 get_output = True
+                                return render(request, 'result.html', {
+                                	"result": data_with_uid[0]
+                                	})
         except :
             print 'Unable to connect'
         
