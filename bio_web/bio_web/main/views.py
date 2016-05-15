@@ -38,7 +38,9 @@ def homepage(request):
                         else :
                             #print data
                             sys.stdout.write(data)
-                            if data[0] == 'R':
+                            data_with_uid = data.split()
+                            if data_with_uid[1] == uid:
+                                print "FINAL RESULT: " + data_with_uid[0]
                                 get_output = True
         except :
             print 'Unable to connect'
