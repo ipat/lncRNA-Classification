@@ -1,6 +1,9 @@
 import hmmlib
 import socket
 import select
+from collections import defaultdict
+import gc
+import time
 
 handle = open("pair_lnc_fam.txt", "rU")
 tester = []
@@ -49,7 +52,8 @@ def initial_model():
 count = 0
 correct = 0
 initial_model()
-
+family_results = defaultdict(int)
+family_count = defaultdict(int)
 
 print "FINISHED INITIAL MODELS"
 
@@ -59,7 +63,17 @@ for each in tester:
 	input_seq = cleanSequence(each[1])
 	result = check_prob(input_seq)
 	print  each[0] + "\t|\t" + result[0]
+	family_count[each[0]] += 1
 	if each[0] == result[0]:
 		correct += 1
+		family_results[each[0]] += 1
+	gc.collect()
+	time.sleep(1)
+
+f = open("test_results.csv", "w")
+for key, val in family_count.iteritems():
+	f.write(key + ", " + str(family_results[key]) + ", " + str(val))
+f.close()
 
 print "FINAL RESULT: " + str(float(correct)/count)
+
