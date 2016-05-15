@@ -1,4 +1,5 @@
 import socket, select, string, sys
+import time
  
 def prompt() :
     sys.stdout.write('<You> ')
@@ -30,8 +31,8 @@ if __name__ == "__main__":
     tester = {
         'RF01891': 'CTGTGCCTCCTGATTGCTGAGTGTTCACCTGGACCTTCTGACTACCTTCCCTGTGCTATTCCATCAGCCTACAGACCTGGTACCTGGATTTTTGCCCAAGATGATTCCTACCACCTTACTACTGAAGAAGACACCCATTCCAGTGGACCACTGTGACCCAGGAGGCATTCAGCCATCATGATGTGGCCTTTACCTCCACTCCTGTCCTGTTCTACCCAGATTCAGCACAGCCCTTTA'
     }
-     
-    for each in tester:
+    
+    while 1:
         socket_list = [sys.stdin, s]
          
         # Get the list sockets which are readable
@@ -51,6 +52,5 @@ if __name__ == "__main__":
              
             #user entered a message
             else :
-                msg = sys.stdin.readline()
-                s.send(tester[each])
-                prompt()
+                time.sleep(100)
+                s.send('CTGTGCCTCCTGATTGCTGAGTGTTCACCTGGACCTTCTGACTACCTTCCCTGTGCTATTCCATCAGCCTACAGACCTGGTACCTGGATTTTTGCCCAAGATGATTCCTACCACCTTACTACTGAAGAAGACACCCATTCCAGTGGACCACTGTGACCCAGGAGGCATTCAGCCATCATGATGTGGCCTTTACCTCCACTCCTGTCCTGTTCTACCCAGATTCAGCACAGCCCTTTA')

@@ -3,9 +3,10 @@ import hmmlib
 import socket
 import select
 
-tester = {
-        'RF01891': 'CTGTGCCTCCTGATTGCTGAGTGTTCACCTGGACCTTCTGACTACCTTCCCTGTGCTATTCCATCAGCCTACAGACCTGGTACCTGGATTTTTGCCCAAGATGATTCCTACCACCTTACTACTGAAGAAGACACCCATTCCAGTGGACCACTGTGACCCAGGAGGCATTCAGCCATCATGATGTGGCCTTTACCTCCACTCCTGTCCTGTTCTACCCAGATTCAGCACAGCCCTTTA'
-    }
+tester = [
+        ('RF01891', 'CTGTGCCTCCTGATTGCTGAGTGTTCACCTGGACCTTCTGACTACCTTCCCTGTGCTATTCCATCAGCCTACAGACCTGGTACCTGGATTTTTGCCCAAGATGATTCCTACCACCTTACTACTGAAGAAGACACCCATTCCAGTGGACCACTGTGACCCAGGAGGCATTCAGCCATCATGATGTGGCCTTTACCTCCACTCCTGTCCTGTTCTACCCAGATTCAGCACAGCCCTTTA'),
+    	('RF01891', 'CTGTGCCTCCTGATTGCTGAGTGTTCACCTGGACCTTCTGACTACCTTCCCTGTGCTATTCCATCAGCCTACAGACCTGGTACCTGGATTTTTGCCCAAGATGATTCCTACCACCTTACTACTGAAGAAGACACCCATTCCAGTGGACCACTGTGACCCAGGAGGCATTCAGCCATCATGATGTGGCCTTTACCTCCACTCCTGTCCTGTTCTACCCAGATTCAGCACAGCCCTTTA')
+    ]
 
 models = {}
 CONNECTION_LIST = []
@@ -20,11 +21,11 @@ def check_prob(in_seq):
 	# global models
 	max_prob = -999999
 	max_fam = ""
-	print in_seq
+	#print in_seq
 	# print len(models)
 	for i, family_name in enumerate(models.keys()):
 		# model = models[family_name]
-		print family_name
+		#print family_name
 		logp, path = models[family_name].viterbi(in_seq)
 		# print family_name + ": " + str(logp)
 		if max_prob < logp:
@@ -34,13 +35,23 @@ def check_prob(in_seq):
 	return max_fam, max_prob
 
 def initial_model():
-	manager = Manager()
 	global models
-	models = hmmlib.initiateModel(207, 217)
+	models = hmmlib.initiateModel(200, 217)
 
-
+count = 0
+correct = 0
 initial_model()
 
+
+print "FINISHED INITIAL MODELS"
+
+print "ACTUAL\t|\tRESULT"
 for each in tester:
-	input_seq = cleanSequence(tester[each])
+	count += 1
+	input_seq = cleanSequence(each[1])
 	result = check_prob(input_seq)
+	print  each[0] + "\t|\t" + result[0]
+	if each[0] == result[0]:
+		correct += 1
+
+print "FINAL RESULT: " + str(float(correct)/count)
