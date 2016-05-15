@@ -93,13 +93,14 @@ def main():
 			else:
 				data = sock.recv(buffer_size)
 				if data:
-					input_seq = cleanSequence(data)
+					data_with_uid = data.split()
+					input_seq = cleanSequence(data[0])
 					# if len(models) < 217:
 					# 	print "Not ready"
 					# 	continue
 					result = check_prob(input_seq)
 					# broadcast_data(s, result)
-					sock.send(result[0])
+					sock.send(result[0] + " " + data[1])
 					print result
 		# input_seq = cleanSequence(input_seq)
 
