@@ -1,4 +1,5 @@
 import hmmlib
+import gc
 import socket
 import select
 from multiprocessing import Process, Queue, Manager
@@ -44,7 +45,7 @@ def broadcast_data (sock, message):
 def initial_model():
 	manager = Manager()
 	global models
-	models = hmmlib.initiateModel(207, 217)
+	models = hmmlib.initiateModel(0, 217)
 	# jobs = []
 	# jRange = [
 	# 	# (0,1),
@@ -93,13 +94,15 @@ def main():
 			else:
 				data = sock.recv(buffer_size)
 				if data:
-					input_seq = cleanSequence(data)
+					data_with_uid = data.split()
+					input_seq = cleanSequence(data_with_uid[0])
 					# if len(models) < 217:
 					# 	print "Not ready"
 					# 	continue
 					result = check_prob(input_seq)
+					gc.collect()
 					# broadcast_data(s, result)
-					sock.send(result[0])
+					sock.send(result[0] + " " + data_with_uid[1])
 					print result
 		# input_seq = cleanSequence(input_seq)
 
