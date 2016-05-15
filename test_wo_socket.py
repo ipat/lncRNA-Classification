@@ -36,7 +36,7 @@ def check_prob(in_seq):
 
 def initial_model():
 	global models
-	models = hmmlib.initiateModel(200, 217)
+	models = hmmlib.initiateModel(0, 217)
 
 count = 0
 correct = 0
