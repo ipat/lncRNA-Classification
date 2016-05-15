@@ -212,14 +212,12 @@ def calculateProb(in_seq, return_dict, start = 0, end = 217):
 	prob = {}
 	for filename in sorted(glob.glob(DEFAULT_DIRECTORY + '*.lncRNA'), key=os.path.getsize, reverse=True)[start:end]:
 		family_name = filename[filename.index("/") + 1: filename.index(".")]
-		# print family_name
 		f = open(filename)
 		model_json = pickle.load(f)
 		f.close()
 		test_model = model.from_json(model_json)
-
 		logp, path = test_model.viterbi(in_seq)
-		print family_name + ": " + str(logp)
+		# print family_name + ": " + str(logp)
 		if max_prob < logp:
 			max_prob = logp
 			max_fam = family_name
@@ -228,5 +226,19 @@ def calculateProb(in_seq, return_dict, start = 0, end = 217):
 	return_dict[max_fam] = max_prob
 	return max_fam, max_prob
 
-# calculateProb(input_seqs[0].replace("-", ""))
+def initiateModel(start = 0, end = 217):
+	model = HiddenMarkovModel("Global Sequence Aligner")
+	max_prob = -999999
+	max_fam = ""
+	return_models = {}
+	for filename in sorted(glob.glob(DEFAULT_DIRECTORY + '*.lncRNA'), key=os.path.getsize, reverse=True)[start:end]:
+		family_name = filename[filename.index("/") + 1: filename.index(".")]
+		f = open(filename)
+		model_json = pickle.load(f)
+		f.close()
+		return_models[family_name] = model.from_json(model_json)
+	# print "Return Dict: " + str(len(return_dict))
+	# print "CHECK : " + str(len(return_model))
+	return return_models
+	# return "Finish"
 
