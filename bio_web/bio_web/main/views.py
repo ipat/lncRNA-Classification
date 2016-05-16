@@ -11,6 +11,8 @@ def homepage(request):
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.settimeout(2)
         rna = request.POST.get('search-rna')
+        if rna == '':
+            return render(request, 'home.html', {"text":"RNA can't be empty"})
         print rna
         uid = uuid.uuid4()
         uid = uid.hex
@@ -51,5 +53,5 @@ def homepage(request):
        
         print get_output
 
-    return render(request, 'home.html')
+    return render(request, 'home.html',{'text':'Put Long non-coding RNA here to identify'})
 
