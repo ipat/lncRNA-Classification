@@ -23,6 +23,11 @@
 				<form method="post" action="/">
 					{% csrf_token %}
 					<div class="row">
+						<div class="col-md-4 col-md-offset-4">
+							<img src="{% static 'images/logo.png' %}" id="logo">
+						</div>
+					</div>
+					<div class="row">
 						<p id="over-form-text">Put Long non-encoding RNA here to identify</p>
 					</div>
 					<div class="row">
