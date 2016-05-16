@@ -72,7 +72,7 @@ for each in tester:
 		correct += 1
 		family_results[each[0]] += 1
 	gc.collect()
-	time.sleep(1)
+	time.sleep(0.05)
 
 f = open("test_results.csv", "w")
 for key, val in family_count.iteritems():
