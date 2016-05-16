@@ -48,3 +48,11 @@ html, body {
 .center{
     text-align: center;
 }
+
+#result-title-text {
+    color: white;
+    font-family: montserrat;
+    width: 100%;
+    text-align: center;
+    font-size: 1.5rem;
+}
