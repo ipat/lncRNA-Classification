@@ -102,7 +102,7 @@ def main():
 					result = check_prob(input_seq)
 					gc.collect()
 					# broadcast_data(s, result)
-					sock.send(result[0] + " " + data_with_uid[1] + " " + result[1])
+					sock.send(result[0] + " " + data_with_uid[1] + " " + str(result[1]))
 					print result
 		# input_seq = cleanSequence(input_seq)
 

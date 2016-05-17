@@ -53,7 +53,6 @@ def homepage(request):
             print 'Unable to connect'
         
        
-        print get_output
         return render(request, 'home.html',{'text':'Not found'})
 
     return render(request, 'home.html',{'text':'Put Long non-coding RNA here to identify'})
