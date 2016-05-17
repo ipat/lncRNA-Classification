@@ -26,7 +26,9 @@ def homepage(request):
             print 'sended'
 
             get_output = False
-            while not get_output:
+            count = 0
+            while not get_output and count < 200:
+                count += 1
                 socket_list = [sys.stdin, s]
                  
                 # Get the list sockets which are readable
